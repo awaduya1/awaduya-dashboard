@@ -1,0 +1,3 @@
+node_modules/
+.env
+ga4-key.json
