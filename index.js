@@ -1,8 +1,28 @@
+import dotenv from "dotenv";
+dotenv.config();
+
+import fs from "fs";
 import { BetaAnalyticsDataClient } from "@google-analytics/data";
 import { sendMail } from "./mail.js";
 
+console.log(process.env.MAIL_USER);
+console.log(process.env.MAIL_PASS?.length);
+
+
+
+let credentials;
+
+if (process.env.GA4_KEY) {
+  credentials = JSON.parse(process.env.GA4_KEY);
+} else {
+  credentials = JSON.parse(
+    fs.readFileSync("ga4-key.json", "utf8")
+  );
+}
+
+
 const client = new BetaAnalyticsDataClient({
-  keyFilename: "ga4-key.json",
+  credentials,
 });
 
 const channelNames = {

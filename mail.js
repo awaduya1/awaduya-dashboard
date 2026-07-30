@@ -3,6 +3,9 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+console.log(process.env.MAIL_USER);
+console.log(process.env.MAIL_PASS.length);
+
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
@@ -11,13 +14,15 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-export async function sendMail(subject, text) {
-  await transporter.sendMail({
-    from: process.env.MAIL_USER,
-    to: "info@awaduya.com",
-    subject,
-    text,
-  });
+export async function sendMail(subject,text){
 
-  console.log("メール送信成功！");
+await transporter.sendMail({
+from:process.env.MAIL_USER,
+to:"info@awaduya.com",
+subject,
+text,
+});
+
+console.log("メール送信成功");
+
 }
