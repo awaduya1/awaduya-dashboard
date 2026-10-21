@@ -1,3 +1,4 @@
+
 name: Awaduya EC Report
 
 on:
@@ -7,11 +8,9 @@ on:
 
 jobs:
   send-report:
-
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -22,6 +21,16 @@ jobs:
 
       - name: Install packages
         run: npm install
+
+      - name: Create GA4 key file
+        env:
+          GA4_KEY: ${{ secrets.GA4_KEY }}
+        run: |
+          if [ -z "$GA4_KEY" ]; then
+            echo "GA4_KEY secret is empty or unavailable"
+            exit 1
+          fi
+          node -e "require('fs').writeFileSync('ga4-key.json', process.env.GA4_KEY)"
 
       - name: Send report
         run: node index.js
